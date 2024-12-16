@@ -63,7 +63,7 @@ class Watchlist:
         try:
             with open(file_name, mode="w", newline="", encoding="utf-8") as file:
                 writer = csv.writer(file)
-                writer.writerow(["movie_id", "title", "genre", "year", "ratings", "comments"])  # Header row
+                writer.writerow(["movie_id", "title", "genre", "year", "ratings", "comments"])
                 for movie in self.movies:
                     writer.writerow([
                         movie.movie_id,
