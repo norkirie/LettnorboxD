@@ -1,9 +1,9 @@
 import customtkinter as ctk
-from app import Watchlist 
+from app import WatchlistApp
 
 def main():
     root = ctk.CTk()
-    app = Watchlist(root)
+    app = WatchlistApp(root) 
     root.mainloop()
 
 if __name__ == "__main__":
