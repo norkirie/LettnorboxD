@@ -75,3 +75,4 @@ class Watchlist:
                     ])
         except Exception as e:
             print(f"Error saving data to CSV: {e}")
+

@@ -3,8 +3,11 @@ from tkinter import *
 from tkinter import ttk
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import filedialog
 from movie import Movie
 from watchlist import Watchlist
+import csv
+
 
 app = customtkinter.CTk()
 app.title('LettnorboxD')
@@ -205,6 +208,41 @@ def update_entry():
         clear_form()
         messagebox.showinfo('Success', 'Movie has been updated')
 
+def export_to_csv():
+    file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
+    if not file_path:
+        return
+
+    movies = watchlist.view_movies()
+
+    with open(file_path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['ID', 'Title', 'Genre', 'Year', 'Rating', 'Comments'])
+
+        for movie in movies:
+            writer.writerow([movie.movie_id, movie.title, movie.genre, movie.year, movie.rating, movie.comments])
+
+        print('Success', 'Movies have been exported successfully!')
+
+def import_from_csv():
+
+    file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
+    if not file_path:
+        return
+
+    with open(file_path, mode='r') as file:
+        reader = csv.reader(file)
+        header = next(reader)
+        
+        for row in reader:
+            if row: 
+                movie_id, title, genre, year, rating, comments = row
+                movie = Movie(title, genre, int(year), rating, comments, int(movie_id))
+                watchlist.add_movie(movie)
+
+    add_to_treeview()
+    messagebox.showinfo('Success', 'Movies have been imported successfully!')
+
 watchlist = Watchlist()
 
 title_label = newCtkLabel('Title')
@@ -237,18 +275,34 @@ add_button = newCtkButton(text='Add Movie',
                           fgColor='#05A312',
                           hoverColor='#00850B',
                           borderColor='#05A312')
-add_button.place(x=50, y=400)
+add_button.place(x=50, y=331)
 
 update_button = newCtkButton(text='Update Movie',
                              onClickHandler=update_entry)
-update_button.place(x=360, y=400)
+update_button.place(x=50, y=400)
 
 delete_button = newCtkButton(text='Delete Movie',
                             onClickHandler=delete_entry,
                             fgColor='#E40404',
                             hoverColor='#AE0000',
                             borderColor='#E40404')
-delete_button.place(x=670, y=400)
+delete_button.place(x=360, y=400)
+
+export_button = newCtkButton(
+    text='Export to CSV',
+    onClickHandler=export_to_csv,
+    fgColor='#0288D1',
+    hoverColor='#0277BD',
+    borderColor='#0288D1')
+export_button.place(x=670, y=400)
+
+import_button = newCtkButton(
+    text='Import from CSV',
+    onClickHandler=import_from_csv,
+    fgColor='#0288D1',
+    hoverColor='#0277BD',
+    borderColor='#0288D1')
+import_button.place(x=1000, y=400)
 
 style = ttk.Style(app)
 style.theme_use('clam')
