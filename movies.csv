@@ -1,1 +1,2 @@
-movie_id,title,genre,year,ratings,comments
+ID,Title,Genre,Year,Rating,Comments
+1,Hello love goodbye,Horror,2024,5,Good
