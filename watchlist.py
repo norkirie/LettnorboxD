@@ -1,3 +1,4 @@
+from movie import Movie
 import csv
 
 class Watchlist:
